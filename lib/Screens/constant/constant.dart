@@ -1,0 +1,2 @@
+String videoTitle = "";
+String channelName = "";
