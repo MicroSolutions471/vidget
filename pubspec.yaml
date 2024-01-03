@@ -52,6 +52,13 @@ dependencies:
   eva_icons_flutter: ^3.1.0
   awesome_bottom_bar: ^1.2.4
   collection: ^1.17.2
+  webview_flutter: ^4.4.2
+  flutter_inappwebview: ^5.8.0
+  flutter_downloader: ^1.11.6
+  html: ^0.15.4
+  fluttertoast: ^8.2.4
+  http: ^1.1.0
+ 
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +87,11 @@ flutter:
     - assets/icons/download.png
     - assets/icons/download1.png
     - assets/icons/download2.png
+    - assets/icons/youtube.png
+    - assets/icons/facebook.png
+    - assets/icons/vimeo.png
+    - assets/icons/instagram.png
+    - assets/icons/dailymotion.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

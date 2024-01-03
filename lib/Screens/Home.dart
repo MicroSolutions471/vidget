@@ -1,107 +1,145 @@
-// ignore_for_file: file_names, deprecated_member_use, duplicate_ignore, library_private_types_in_public_api
+// ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-
-// Use a prefix for the import
-import 'package:vidget/Screens/Player.dart';
-import 'package:vidget/Screens/constant/constant.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
-// Importing v1.dart with a prefix
+import 'package:vidget/Screens/WebViewScreen.dart';
+import 'package:vidget/utilities/widgets.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  final TextEditingController _searchController = TextEditingController();
-  final YoutubeExplode _ytExplode = YoutubeExplode();
-  List<Video> _searchResults = [];
-  bool _loading = false;
-
-  Future<void> _searchVideos() async {
-    setState(() {
-      _loading = true; // Set loading to true when starting the search
-    });
-
-    try {
-      var query = _searchController.text;
-      var searchResults = await _ytExplode.search.getVideos(query);
-      setState(() {
-        _searchResults = searchResults.toList();
-      });
-    } finally {
-      setState(() {
-        _loading = false; // Set loading to false when search is complete
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          TextField(
-            controller: _searchController,
-            decoration: const InputDecoration(
-              hintText: 'Search for videos...',
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-            onSubmitted: (value) {
-              _searchVideos();
-            },
-          ),
-          if (_loading)
-            const LinearProgressIndicator(
-              color: Colors.orange,
-            ) // Show loading indicator if loading is true
-          else
-            Expanded(
-              child: ListView.builder(
-                itemCount: _searchResults.length,
-                itemBuilder: (context, index) {
-                  var video = _searchResults[index];
-                  return GestureDetector(
+            Row(
+              children: [
+                const Text(
+                  "Top Sites",
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 1,
+                    color: Colors.grey.shade300,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: double.maxFinite,
+              child: GridView.count(
+                crossAxisCount: 5,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    WebViewScreen(
+                              appbarColor: Colors.red.shade700,
+                              title: "YouTube",
+                              url: "https://www.youtube.com/",
+                            ),
+                            transitionDuration: const Duration(seconds: 0),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return child;
+                            },
+                          ),
+                        );
+                      },
+                      child: homeTab(
+                          'assets/icons/youtube.png', "Youtube", 30, 30, 12)),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    WebViewScreen(
+                              appbarColor: Colors.blue.shade900,
+                              title: "Facebook",
+                              url: "https://web.facebook.com/",
+                            ),
+                            transitionDuration: const Duration(seconds: 0),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return child;
+                            },
+                          ),
+                        );
+                      },
+                      child: homeTab(
+                          'assets/icons/facebook.png', "Facebook", 30, 30, 12)),
+                  GestureDetector(
                     onTap: () {
-                      videoTitle = video.title;
-                      channelName = video.author;
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => PlayerScreen(video.id),
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  WebViewScreen(
+                            appbarColor: Colors.orange.shade800,
+                            title: "Instagram",
+                            url: "https://www.instagram.com/",
+                          ),
+                          transitionDuration: const Duration(seconds: 0),
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            return child;
+                          },
                         ),
                       );
                     },
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        ListTile(
-                          leading: Image(
-                            image: NetworkImage(video.thumbnails.highResUrl),
+                    child: homeTab(
+                        'assets/icons/instagram.png', "Instagram", 30, 30, 12),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    WebViewScreen(
+                              appbarColor: Colors.lightBlueAccent,
+                              title: "Vimeo",
+                              url: "https://vimeo.com/",
+                            ),
+                            transitionDuration: const Duration(seconds: 0),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return child;
+                            },
                           ),
-                          title: Text(
-                            video.title,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                          subtitle: Text(video.author),
-                        ),
-                        Positioned(
-                          child: Text(
-                            '${video.duration!.inMinutes}:${(video.duration!.inSeconds % 60).toString().padLeft(2, '0')}',
-                            style: const TextStyle(
-                                color: Colors.black54, fontSize: 10),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                        );
+                      },
+                      child: homeTab(
+                          'assets/icons/vimeo.png', "Vimeo", 30, 30, 12)),
+                ],
               ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }

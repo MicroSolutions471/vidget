@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:vidget/Screens/Downloads.dart';
 import 'package:vidget/Screens/Home.dart';
+import 'package:vidget/Screens/Search.dart';
 import 'package:vidget/Screens/constant/colors.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
@@ -21,39 +22,26 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Container(
-          padding: const EdgeInsets.only(left: 20, top: 10),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            primaryColor1,
-            primaryColor2,
-          ])),
-          child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                "VidGet",
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),
-              )
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        title: const Text("VidGet"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  ),
+                );
+              },
+              icon: const Icon(EvaIcons.searchOutline))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: PageView(
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: (index) {
-            // Ensure that this callback is triggered when you swipe between pages.
             _pageController.jumpToPage(index);
             setState(() {
               _currentIndex = index;
@@ -64,10 +52,9 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: primaryColor1,
+        selectedItemColor: primaryColor3,
         currentIndex: _currentIndex,
         onTap: (index) {
-          // Ensure that this callback is triggered when you tap on different items.
           _pageController.jumpToPage(index);
           setState(() {
             _currentIndex = index;
